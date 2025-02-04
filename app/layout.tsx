@@ -1,12 +1,12 @@
 "use client";
 
-import "./globals.css";
+import "../globals.css"; // Убедись, что этот путь корректен
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components/navbar";
 import type { ReactNode } from "react";
 import { WalletConnectProvider } from "@/components/wallet-connect";
 import { useEffect, useRef } from "react";
-import { metadata } from "./metadata";
+import { metadata } from "../metadata"; // Исправленный импорт
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,16 +15,10 @@ function QuantumBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) {
-      console.error("Canvas element is null");
-      return;
-    }
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      console.error("Canvas context is null");
-      return;
-    }
+    if (!ctx) return;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -42,7 +36,6 @@ function QuantumBackground() {
       connections: Particle[] = [];
 
       constructor() {
-        if (!canvas) return;
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 3 + 1;
@@ -52,8 +45,6 @@ function QuantumBackground() {
       }
 
       update() {
-        if (!canvas) return;
-
         this.x += this.speedX;
         this.y += this.speedY;
 
@@ -66,8 +57,6 @@ function QuantumBackground() {
       }
 
       draw() {
-        if (!ctx) return;
-
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -91,7 +80,6 @@ function QuantumBackground() {
     }
 
     function animate() {
-      if (!canvas || !ctx) return;
       ctx.fillStyle = "rgba(10, 11, 30, 0.1)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -106,14 +94,11 @@ function QuantumBackground() {
     animate();
 
     const handleResize = () => {
-      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-      if (!canvas) return;
-
       const rect = canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;

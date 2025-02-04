@@ -1,7 +1,7 @@
 "use client";
 "use strict";
 exports.__esModule = true;
-require("./globals.css");
+require("../globals.css"); // Убедись, что этот путь корректен
 var google_1 = require("next/font/google");
 var navbar_1 = require("@/components/navbar");
 var wallet_connect_1 = require("@/components/wallet-connect");
@@ -11,15 +11,11 @@ function QuantumBackground() {
     var canvasRef = react_1.useRef(null);
     react_1.useEffect(function () {
         var canvas = canvasRef.current;
-        if (!canvas) {
-            console.error("Canvas element is null");
+        if (!canvas)
             return;
-        }
         var ctx = canvas.getContext("2d");
-        if (!ctx) {
-            console.error("Canvas context is null");
+        if (!ctx)
             return;
-        }
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         var particles = [];
@@ -33,8 +29,6 @@ function QuantumBackground() {
                 this.speedY = 0;
                 this.color = "";
                 this.connections = [];
-                if (!canvas)
-                    return;
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 3 + 1;
@@ -44,8 +38,6 @@ function QuantumBackground() {
             }
             Particle.prototype.update = function () {
                 var _this = this;
-                if (!canvas)
-                    return;
                 this.x += this.speedX;
                 this.y += this.speedY;
                 if (this.x < 0 || this.x > canvas.width)
@@ -56,8 +48,6 @@ function QuantumBackground() {
             };
             Particle.prototype.draw = function () {
                 var _this = this;
-                if (!ctx)
-                    return;
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -79,8 +69,6 @@ function QuantumBackground() {
             }
         }
         function animate() {
-            if (!canvas || !ctx)
-                return;
             ctx.fillStyle = "rgba(10, 11, 30, 0.1)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             for (var i = 0; i < particles.length; i++) {
@@ -92,14 +80,10 @@ function QuantumBackground() {
         init();
         animate();
         var handleResize = function () {
-            if (!canvas)
-                return;
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         };
         var handleMouseMove = function (event) {
-            if (!canvas)
-                return;
             var rect = canvas.getBoundingClientRect();
             var x = event.clientX - rect.left;
             var y = event.clientY - rect.top;
