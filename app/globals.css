@@ -1,0 +1,54 @@
+/* ✅ Tailwind Setup */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🔥 Исправленный appearance */
+select, input, button {
+  -moz-appearance: none; /* Для Firefox */
+  appearance: none; /* ✅ Кросс-браузерная поддержка */
+}
+
+/* ✅ Улучшенные анимации */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes glow {
+  0% { filter: drop-shadow(0 0 5px rgba(122, 136, 255, 0.5)); }
+  100% { filter: drop-shadow(0 0 15px rgba(122, 136, 255, 0.8)); }
+}
+
+/* ✅ Tailwind Fix */
+body {
+  @apply bg-gray-900 text-white font-sans;
+}
+
+/* ✅ Улучшенный `scrollbar` */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0b1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #7a88ff, #4a90e2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #4a90e2, #7a88ff);
+}
+
+/* ✅ Фикс кастомной стрелки `select` */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237A88FF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em 1.5em;
+  padding-right: 2rem;
+}
