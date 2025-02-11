@@ -3,10 +3,6 @@
 /** @type {import('next').NextConfig} */
 var nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    appDir: true // Включаем поддержку App Router
-
-  },
   env: {
     // Infrastructure
     NEXT_PUBLIC_INFURA_ID: process.env.NEXT_PUBLIC_INFURA_ID,

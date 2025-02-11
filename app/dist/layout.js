@@ -5,11 +5,9 @@ require("./globals.css");
 var google_1 = require("next/font/google");
 var navbar_1 = require("@/components/navbar");
 var react_1 = require("@reown/appkit/react");
-var wagmi_1 = require("wagmi");
 var react_query_1 = require("@tanstack/react-query");
 var appkit_adapter_wagmi_1 = require("@reown/appkit-adapter-wagmi");
 var react_2 = require("react");
-var chains_1 = require("@reown/appkit/chains");
 var inter = google_1.Inter({ subsets: ["latin"] });
 var queryClient = new react_query_1.QueryClient({
     defaultOptions: {
@@ -28,7 +26,7 @@ var metadata = {
     icons: ['https://quantum-exchange.com/icon.png']
 };
 // Правильно типизируем сети для AppKit
-var networks = [chains_1.mainnet, chains_1.arbitrum];
+var networks = [mainnet, arbitrum];
 var wagmiAdapter = new appkit_adapter_wagmi_1.WagmiAdapter({
     networks: networks,
     projectId: projectId,
@@ -163,7 +161,7 @@ function RootLayout(_a) {
     var children = _a.children;
     return (React.createElement("html", { lang: "en" },
         React.createElement("body", { className: inter.className },
-            React.createElement(wagmi_1.WagmiProvider, { config: wagmiAdapter.wagmiConfig },
+            React.createElement(WagmiProvider, { config: wagmiAdapter.wagmiConfig },
                 React.createElement(react_query_1.QueryClientProvider, { client: queryClient },
                     React.createElement("div", { className: "min-h-screen relative overflow-hidden bg-[#0A0B1E] text-white font-mono" },
                         React.createElement(QuantumBackground, null),

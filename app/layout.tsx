@@ -5,12 +5,9 @@ import { Inter } from "next/font/google";
 import { Navbar } from "@/components/navbar";
 import type { ReactNode } from "react";
 import { createAppKit } from '@reown/appkit/react'
-import { WagmiProvider } from 'wagmi'
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { useEffect, useRef } from "react";
-import { mainnet, arbitrum } from '@reown/appkit/chains'
-import type { AppKitNetwork } from '@reown/appkit/types'
 
 // Определяем интерфейс для частиц, чтобы TypeScript понимал их структуру
 interface Particle {
