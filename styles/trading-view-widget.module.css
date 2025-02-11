@@ -1,0 +1,39 @@
+.trading-widget-container {
+    @apply w-full h-full relative;
+  }
+  
+  .trading-chart {
+    @apply w-full h-full min-h-[400px];
+    background: rgba(18, 11, 38, 0.95);
+    border: 1px solid rgba(74, 144, 226, 0.2);
+    border-radius: 8px;
+  }
+  
+  .trading-controls {
+    @apply absolute top-4 right-4 flex gap-2;
+  }
+  
+  .trading-button {
+    @apply px-3 py-1.5 rounded-md 
+           bg-primary/10 hover:bg-primary/20
+           text-primary-foreground
+           transition-colors;
+  }
+  
+  /* Темная тема */
+  :global(.dark) .trading-chart {
+    background: rgba(8, 5, 18, 0.95);
+    border-color: rgba(74, 144, 226, 0.15);
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .trading-chart {
+      @apply min-h-[300px];
+    }
+    
+    .trading-controls {
+      @apply top-2 right-2;
+    }
+  }
+  

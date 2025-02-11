@@ -48,13 +48,17 @@ export const TradeSection = () => {
             <span className="text-sm text-gray-400">Position</span>
             <div className="flex">
               <button
-                className="bg-green-600 text-white px-4 py-2 rounded-l"
+                className={`px-4 py-2 rounded-l ${
+                  position === "long" ? "bg-green-600" : "bg-slate-700"
+                }`}
                 onClick={() => handlePositionChange("long")}
               >
                 Long
               </button>
               <button
-                className="bg-slate-700 text-white px-4 py-2 rounded-r"
+                className={`px-4 py-2 rounded-r ${
+                  position === "short" ? "bg-red-600" : "bg-slate-700"
+                }`}
                 onClick={() => handlePositionChange("short")}
               >
                 Short

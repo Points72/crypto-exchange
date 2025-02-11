@@ -1,13 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 export const BridgeSection = () => {
   const [fromChain, setFromChain] = useState("Ethereum")
   const [toChain, setToChain] = useState("Polygon")
-  const [token, setToken] = useState("USDT")
-  const [amount, setAmount] = useState("")
-  const [activeTab, setActiveTab] = useState("bridge")
 
   const chains = [
     {

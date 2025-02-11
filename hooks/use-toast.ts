@@ -158,7 +158,7 @@ function toast({ ...props }: Toast) {
       ...props,
       id,
       open: true,
-      onOpenChange: (open) => {
+      onOpenChange: (open: boolean) => {
         if (!open) dismiss()
       },
     },
@@ -191,4 +191,11 @@ function useToast() {
   }
 }
 
-export { useToast, toast }
+type ToastFunction = (props: { 
+  title: string; 
+  description?: string; 
+  action?: React.ReactNode 
+}) => { id: string; dismiss: () => void; update: (props: ToasterToast) => void };
+
+export { toast, useToast };
+export type { ToastFunction };

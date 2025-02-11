@@ -1,5 +1,4 @@
 export const metadata = {
-    title: "QuantumDEX",
-    description: "Next-gen decentralized exchange",
-  }
-  
+  title: 'Crypto Exchange',
+  description: 'Next generation crypto exchange platform',
+};

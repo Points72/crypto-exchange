@@ -1,2 +1,4 @@
 dist/
 dist/
+@reown:registry=https://cloud.reown.com/api/v1/registry/
+//cloud.reown.com/api/v1/registry/:_authToken=75996cae-f3f1-4404-97d0-37b5cd421753

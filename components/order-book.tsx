@@ -1,5 +1,5 @@
 interface OrderBookProps {
-  pair: string
+  pair?: string
 }
 
 export function OrderBook({ pair }: OrderBookProps) {
