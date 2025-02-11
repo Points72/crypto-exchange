@@ -1,10 +1,11 @@
+// wallet-connect.tsx
 'use client';
 "use strict";
 exports.__esModule = true;
 exports.WalletConnect = void 0;
-var react_1 = require("@reown/appkit/react");
-var button_1 = require("./ui/button");
-var wagmi_1 = require("@reown/appkit/wagmi");
+var react_1 = require("@web3modal/react");
+var button_1 = require("./ui/button"); // Assuming this is a custom UI component
+var wagmi_1 = require("wagmi");
 var lucide_react_1 = require("lucide-react");
 var react_2 = require("react");
 function WalletConnect() {
@@ -12,7 +13,10 @@ function WalletConnect() {
     var _a = wagmi_1.useAccount(), address = _a.address, isConnected = _a.isConnected;
     var disconnect = wagmi_1.useDisconnect().disconnect;
     var _b = react_2.useState(false), mounted = _b[0], setMounted = _b[1];
-    react_2.useEffect(function () { return setMounted(true); }, []);
+    // Prevent hydration mismatch errors in Next.js
+    react_2.useEffect(function () {
+        setMounted(true);
+    }, []);
     if (!mounted)
         return null;
     if (isConnected && address) {
