@@ -48,7 +48,7 @@ export default function QuantumBackground() {
     };
 
     const drawConnections = (particle: Particle) => {
-      particlesRef.current.forEach(other => {
+      particlesRef.current?.forEach(other => {
         if (other === particle) return;
         const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
         
@@ -76,7 +76,7 @@ export default function QuantumBackground() {
       ctx.fillStyle = 'rgba(10, 11, 30, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      particlesRef.current.forEach(particle => {
+      particlesRef.current?.forEach(particle => {
         updateParticle(particle);
         drawParticle(particle);
         drawConnections(particle);
@@ -101,9 +101,9 @@ export default function QuantumBackground() {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      if (particlesRef.current.length < 225) {
-        particlesRef.current.push(...Array.from({ length: 3 }, () => 
-          createParticle(x, y)
+      if (particlesRef.current && particlesRef.current.length < 225) {
+        particlesRef.current.push(
+          ...Array.from({ length: 3 }, () => createParticle(x, y))
         );
       }
     };

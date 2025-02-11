@@ -35,7 +35,8 @@ function QuantumBackground() {
                 particle.speedY *= -1;
         };
         var drawConnections = function (particle) {
-            particlesRef.current.forEach(function (other) {
+            var _a;
+            (_a = particlesRef.current) === null || _a === void 0 ? void 0 : _a.forEach(function (other) {
                 if (other === particle)
                     return;
                 var distance = Math.hypot(particle.x - other.x, particle.y - other.y);
@@ -56,11 +57,12 @@ function QuantumBackground() {
             ctx.fill();
         };
         var animate = function () {
+            var _a;
             if (!canvas || !ctx)
                 return;
             ctx.fillStyle = 'rgba(10, 11, 30, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            particlesRef.current.forEach(function (particle) {
+            (_a = particlesRef.current) === null || _a === void 0 ? void 0 : _a.forEach(function (particle) {
                 updateParticle(particle);
                 drawParticle(particle);
                 drawConnections(particle);
@@ -83,10 +85,8 @@ function QuantumBackground() {
             var rect = canvas.getBoundingClientRect();
             var x = e.clientX - rect.left;
             var y = e.clientY - rect.top;
-            if (particlesRef.current.length < 225) {
-                (_a = particlesRef.current).push.apply(_a, Array.from({ length: 3 }, function () {
-                    return createParticle(x, y);
-                }));
+            if (particlesRef.current && particlesRef.current.length < 225) {
+                (_a = particlesRef.current).push.apply(_a, Array.from({ length: 3 }, function () { return createParticle(x, y); }));
             }
         };
         window.addEventListener('resize', handleResize);

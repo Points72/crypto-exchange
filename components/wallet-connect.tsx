@@ -1,11 +1,11 @@
-// wallet-connect.tsx
 'use client';
 
 import { useWeb3Modal } from '@web3modal/react';
-import { Button } from './ui/button'; // Assuming this is a custom UI component
+import { Button } from './ui/button';
 import { useAccount, useDisconnect } from 'wagmi';
 import { LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils'; // Assuming you have utility class helper
 
 export function WalletConnect() {
   const { open } = useWeb3Modal();
@@ -13,34 +13,48 @@ export function WalletConnect() {
   const { disconnect } = useDisconnect();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch errors in Next.js
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) return (
+    <Button disabled className="bg-gray-500 animate-pulse">
+      Loading...
+    </Button>
+  );
 
   if (isConnected && address) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-300">
-          {/* Shorten the address for display */}
+        <span className="text-sm font-medium text-muted-foreground">
           {`${address.slice(0, 6)}...${address.slice(-4)}`}
         </span>
         <Button
           onClick={() => disconnect()}
           size="icon"
-          variant="ghost"
-          className="h-8 w-8 rounded-full bg-[#4A90E2]/20 hover:bg-[#4A90E2]/30"
+          variant="outline"
+          className={cn(
+            "h-8 w-8 rounded-full",
+            "transition-colors hover:bg-destructive/20",
+            "border border-destructive/30 hover:border-destructive/50"
+          )}
+          aria-label="Disconnect wallet"
         >
-          <LogOut className="h-4 w-4 text-[#7A88FF]" />
+          <LogOut className="h-4 w-4 text-destructive" />
         </Button>
       </div>
     );
   }
 
   return (
-    <Button onClick={() => open()} className="bg-[#4A90E2] hover:bg-[#4A90E2]/90">
+    <Button 
+      onClick={() => open()}
+      className={cn(
+        "bg-primary text-primary-foreground",
+        "hover:bg-primary/90",
+        "transition-colors duration-200"
+      )}
+    >
       Connect Wallet
     </Button>
   );

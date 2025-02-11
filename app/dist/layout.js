@@ -6,41 +6,37 @@ var google_1 = require("next/font/google");
 var navbar_1 = require("@/components/navbar");
 var react_query_1 = require("@tanstack/react-query");
 var wagmi_1 = require("wagmi");
-var public_1 = require("wagmi/providers/public");
-var wagmi_2 = require("wagmi");
+var chains_1 = require("wagmi/chains");
 var react_1 = require("@web3modal/wagmi/react");
-var wagmi_3 = require("@web3modal/wagmi");
-var ethereum_1 = require("@web3modal/ethereum");
 var react_2 = require("react");
 var inter = google_1.Inter({ subsets: ['latin'] });
-// 1. Configure chains and providers
+// 1. Setup project ID and chains
 var projectId = '2bb3b16994fef5232896dac751558dc2'; // Replace with your Project ID
-var _a = wagmi_1.configureChains([wagmi_1.mainnet, wagmi_1.arbitrum], [wagmi_3.walletConnectProvider({ projectId: projectId }), public_1.publicProvider()]), chains = _a.chains, publicClient = _a.publicClient;
+var chains = [chains_1.mainnet, chains_1.arbitrum];
 // 2. Create wagmiConfig
-var wagmiConfig = wagmi_1.createConfig({
-    autoConnect: true,
-    connectors: [],
-    publicClient: publicClient
+var metadata = {
+    name: 'Quantum Exchange',
+    description: 'Quantum Exchange Platform',
+    url: 'crypto-exchange-git-main-melania.vercel.app',
+    icons: ['https://github.com/Points72/crypto-exchange/blob/main/public/final-quantum-logo%20(1).svg']
+};
+var wagmiConfig = react_1.defaultWagmiConfig({
+    chains: chains,
+    projectId: projectId,
+    metadata: metadata
 });
-// 3. Create ethereum client
-var ethereumClient = new ethereum_1.EthereumClient(wagmiConfig, chains);
-// 4. Create Web3Modal
+// 3. Create Web3Modal
 react_1.createWeb3Modal({
     wagmiConfig: wagmiConfig,
     projectId: projectId,
     chains: chains,
     themeVariables: {
-        '--w3m-accent': '#4F46E5'
+        '--w3m-color-mix': '#4F46E5',
+        '--w3m-accent': '#4F46E5',
+        '--w3m-border-radius-master': '4px'
     }
 });
-var queryClient = new react_query_1.QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: 1000 * 60 * 5,
-            refetchOnWindowFocus: false
-        }
-    }
-});
+var queryClient = new react_query_1.QueryClient();
 function QuantumBackground() {
     var canvasRef = react_2.useRef(null);
     var animationFrameRef = react_2.useRef(null);
@@ -92,10 +88,7 @@ function QuantumBackground() {
             return Particle;
         }());
         var init = function () {
-            particlesRef.current = [];
-            for (var i = 0; i < 150; i++) {
-                particlesRef.current.push(new Particle());
-            }
+            particlesRef.current = Array.from({ length: 150 }, function () { return new Particle(); });
         };
         var animate = function () {
             if (!canvas || !ctx)
@@ -111,16 +104,11 @@ function QuantumBackground() {
         init();
         animate();
         var handleResize = function () {
-            if (!canvas)
-                return;
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            particlesRef.current = [];
             init();
         };
         var handleMouseMove = function (event) {
-            if (!canvas)
-                return;
             var rect = canvas.getBoundingClientRect();
             var x = event.clientX - rect.left;
             var y = event.clientY - rect.top;
@@ -139,9 +127,7 @@ function QuantumBackground() {
         return function () {
             window.removeEventListener('resize', handleResize);
             canvas.removeEventListener('mousemove', handleMouseMove);
-            if (animationFrameRef.current) {
-                cancelAnimationFrame(animationFrameRef.current);
-            }
+            animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current);
         };
     }, []);
     return React.createElement("canvas", { ref: canvasRef, className: "fixed inset-0 z-0" });
@@ -150,7 +136,7 @@ function RootLayout(_a) {
     var children = _a.children;
     return (React.createElement("html", { lang: "en" },
         React.createElement("body", { className: inter.className },
-            React.createElement(wagmi_2.WagmiConfig, { config: wagmiConfig },
+            React.createElement(wagmi_1.WagmiProvider, { config: wagmiConfig },
                 React.createElement(react_query_1.QueryClientProvider, { client: queryClient },
                     React.createElement("div", { className: "min-h-screen relative overflow-hidden bg-[#0A0B1E] text-white font-mono" },
                         React.createElement(QuantumBackground, null),

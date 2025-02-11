@@ -4,56 +4,48 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { Navbar } from '@/components/navbar';
 import type { ReactNode } from 'react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { configureChains, createConfig, mainnet, arbitrum } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-import { WagmiConfig } from 'wagmi';
-import { createWeb3Modal } from '@web3modal/wagmi/react';
-import { walletConnectProvider } from '@web3modal/wagmi';
-import { EthereumClient } from '@web3modal/ethereum';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { mainnet, arbitrum } from 'wagmi/chains';
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react';
 import { useEffect, useRef } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// 1. Configure chains and providers
+// 1. Setup project ID and chains
 const projectId = '2bb3b16994fef5232896dac751558dc2'; // Replace with your Project ID
-
-const { chains, publicClient } = configureChains(
-  [mainnet, arbitrum],
-  [walletConnectProvider({ projectId }), publicProvider()]
-);
+const chains = [mainnet, arbitrum] as const;
 
 // 2. Create wagmiConfig
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: [],
-  publicClient
+const metadata = {
+  name: 'Quantum Exchange',
+  description: 'Quantum Exchange Platform',
+  url: 'crypto-exchange-git-main-melania.vercel.app',
+  icons: ['https://github.com/Points72/crypto-exchange/blob/main/public/final-quantum-logo%20(1).svg'],
+};
+
+const wagmiConfig = defaultWagmiConfig({
+  chains,
+  projectId,
+  metadata
 });
 
-// 3. Create ethereum client
-const ethereumClient = new EthereumClient(wagmiConfig, chains);
-
-// 4. Create Web3Modal
+// 3. Create Web3Modal
 createWeb3Modal({
   wagmiConfig,
   projectId,
   chains,
   themeVariables: {
-    '--w3m-accent': '#4F46E5'
+    '--w3m-color-mix': '#4F46E5',
+    '--w3m-accent': '#4F46E5',
+    '--w3m-border-radius-master': '4px'
   }
 });
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 function QuantumBackground() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const particlesRef = useRef<any[]>([]);
 
@@ -115,10 +107,7 @@ function QuantumBackground() {
     }
 
     const init = () => {
-      particlesRef.current = [];
-      for (let i = 0; i < 150; i++) {
-        particlesRef.current.push(new Particle());
-      }
+      particlesRef.current = Array.from({ length: 150 }, () => new Particle());
     };
 
     const animate = () => {
@@ -139,15 +128,12 @@ function QuantumBackground() {
     animate();
 
     const handleResize = () => {
-      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      particlesRef.current = [];
       init();
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-      if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -169,9 +155,7 @@ function QuantumBackground() {
     return () => {
       window.removeEventListener('resize', handleResize);
       canvas.removeEventListener('mousemove', handleMouseMove);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current);
     };
   }, []);
 
@@ -182,7 +166,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <WagmiConfig config={wagmiConfig}>
+        <WagmiProvider config={wagmiConfig}>
           <QueryClientProvider client={queryClient}>
             <div className="min-h-screen relative overflow-hidden bg-[#0A0B1E] text-white font-mono">
               <QuantumBackground />
@@ -192,7 +176,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
           </QueryClientProvider>
-        </WagmiConfig>
+        </WagmiProvider>
       </body>
     </html>
   );
